@@ -502,33 +502,33 @@ macro(sofa_auto_set_target_rpath)
                     if(ARG_RELOCATABLE)
                         message("==== dep is relocatable and dep_reloc_install_dir set to: ${dep_reloc_install_dir}")
                         # current target is relocatable
-                        list(APPEND target_rpath
-                            "$ORIGIN/../../../${dep_reloc_install_dir}/lib"
-                            "$$ORIGIN/../../../${dep_reloc_install_dir}/lib"
-                            "@loader_path/../../../${dep_reloc_install_dir}/lib"
-                            "@executable_path/../../../${dep_reloc_install_dir}/lib"
-                            )
+                        # list(APPEND target_rpath
+                        #     "$ORIGIN/../../../${dep_reloc_install_dir}/lib"
+                        #     "$$ORIGIN/../../../${dep_reloc_install_dir}/lib"
+                        #     "@loader_path/../../../${dep_reloc_install_dir}/lib"
+                        #     "@executable_path/../../../${dep_reloc_install_dir}/lib"
+                        #     )
                     else()
                         message("==== dep is NOT relocatable and dep_reloc_install_dir set to: ${dep_reloc_install_dir}")
                         # current target is NOT relocatable
-                        list(APPEND target_rpath
-                            "$ORIGIN/../${dep_reloc_install_dir}/lib"
-                            "$$ORIGIN/../${dep_reloc_install_dir}/lib"
-                            "@loader_path/../${dep_reloc_install_dir}/lib"
-                            "@executable_path/../${dep_reloc_install_dir}/lib"
-                            )
+                        # list(APPEND target_rpath
+                        #     "$ORIGIN/../${dep_reloc_install_dir}/lib"
+                        #     "$$ORIGIN/../${dep_reloc_install_dir}/lib"
+                        #     "@loader_path/../${dep_reloc_install_dir}/lib"
+                        #     "@executable_path/../${dep_reloc_install_dir}/lib"
+                        #     )
                     endif()
                 else()
                     # the dependency is NOT relocatable
                     if(ARG_RELOCATABLE)
                         message("==== dep is relocatable and dep_reloc_install_dir NOT set")
                         # current target is relocatable
-                        list(APPEND target_rpath
-                            "$ORIGIN/../../../lib"
-                            "$$ORIGIN/../../../lib"
-                            "@loader_path/../../../lib"
-                            "@executable_path/../../../lib"
-                            )
+                        # list(APPEND target_rpath
+                        #     "$ORIGIN/../../../lib"
+                        #     "$$ORIGIN/../../../lib"
+                        #     "@loader_path/../../../lib"
+                        #     "@executable_path/../../../lib"
+                        #     )
                     else()
                         message("==== dep is NOT relocatable and dep_reloc_install_dir NOT set")
                     endif()
