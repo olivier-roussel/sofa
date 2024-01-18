@@ -484,6 +484,7 @@ macro(sofa_auto_set_target_rpath)
 
     foreach(target ${ARG_TARGETS}) # Most of the time there is only one target
         sofa_get_target_dependencies(target_deps ${target})
+        message("========= sofa_get_target_dependencies: target = ${target}, target_deps = ${target_deps}")
         get_target_property(target_rpath ${target} "INSTALL_RPATH")
         foreach(dep ${target_deps})
             if(NOT TARGET ${dep}) # targets only
@@ -499,6 +500,7 @@ macro(sofa_auto_set_target_rpath)
                 if(dep_reloc_install_dir)
                     # the dependency is relocatable
                     if(ARG_RELOCATABLE)
+                        message("==== dep is relocatable and dep_reloc_install_dir set to: ${dep_reloc_install_dir}")
                         # current target is relocatable
                         list(APPEND target_rpath
                             "$ORIGIN/../../../${dep_reloc_install_dir}/lib"
@@ -507,6 +509,7 @@ macro(sofa_auto_set_target_rpath)
                             "@executable_path/../../../${dep_reloc_install_dir}/lib"
                             )
                     else()
+                        message("==== dep is NOT relocatable and dep_reloc_install_dir set to: ${dep_reloc_install_dir}")
                         # current target is NOT relocatable
                         list(APPEND target_rpath
                             "$ORIGIN/../${dep_reloc_install_dir}/lib"
@@ -518,6 +521,7 @@ macro(sofa_auto_set_target_rpath)
                 else()
                     # the dependency is NOT relocatable
                     if(ARG_RELOCATABLE)
+                        message("==== dep is relocatable and dep_reloc_install_dir NOT set")
                         # current target is relocatable
                         list(APPEND target_rpath
                             "$ORIGIN/../../../lib"
@@ -525,6 +529,8 @@ macro(sofa_auto_set_target_rpath)
                             "@loader_path/../../../lib"
                             "@executable_path/../../../lib"
                             )
+                    else()
+                        message("==== dep is NOT relocatable and dep_reloc_install_dir NOT set")
                     endif()
                 endif()
             endif()
