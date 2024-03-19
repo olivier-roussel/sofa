@@ -8,9 +8,16 @@
 #
 # Provides target QGLViewer.
 
+message("======= entering QGLviewer find module ======")
+message("======= trying QGLViewer in config mode... ======")
 find_package(QGLViewer NO_MODULE QUIET)
+message("======= trying QGLViewer in config mode DONE ======")
 
-if(NOT TARGET QGLViewer)
+if(TARGET QGLViewer)
+  message("======= QGLViewer found in config mode ======")
+else()
+  message("======= QGLViewer NOT found in config mode ======")
+  message("======= trying to find qglviewer.h in suffix: include/QGViewer ======")
 
   if(NOT QGLViewer_INCLUDE_DIR)
     find_path(QGLViewer_INCLUDE_DIR
@@ -18,15 +25,19 @@ if(NOT TARGET QGLViewer)
       PATH_SUFFIXES include/QGLViewer
     )
   endif()
+  message("======= found: QGLViewer_INCLUDE_DIR = ${QGLViewer_INCLUDE_DIR} ======")
 
+  message("======= trying to find qglviewer.h in suffix: include/QGViewer ======")
   if(NOT QGLViewer_LIBRARY)
-  find_library(QGLViewer_LIBRARY
-    NAMES QGLViewer QGLViewer-qt5
-    PATH_SUFFIXES lib
-  )
+    find_library(QGLViewer_LIBRARY
+      NAMES QGLViewer QGLViewer-qt5
+      PATH_SUFFIXES lib
+    )
   endif()
+  message("======= found: QGLViewer_LIBRARY = ${QGLViewer_LIBRARY} ======")
 
   if(QGLViewer_INCLUDE_DIR AND QGLViewer_LIBRARY)
+    message("======= found lib and include -> QGLlib found ======")
     set(QGLViewer_FOUND TRUE)
   else()
     if(QGLViewer_FIND_REQUIRED)
