@@ -30,7 +30,7 @@ else()
   message("======= trying to find qglviewer.h in suffix: include/QGViewer ======")
   if(NOT QGLViewer_LIBRARY)
     find_library(QGLViewer_LIBRARY
-      NAMES QGLViewer QGLViewer-qt5
+      NAMES QGLViewer QGLViewer2 QGLViewer-qt5
       PATH_SUFFIXES lib
     )
   endif()
