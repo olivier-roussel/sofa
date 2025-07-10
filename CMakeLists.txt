@@ -142,7 +142,11 @@ if(MSVC)
             list(APPEND CMAKE_LIBRARY_PATH ${SOFA_DEPENDENCY_PACK_DIR}/lib/win32)
         endif()
         install(DIRECTORY ${SOFA_DEPENDENCY_PACK_DIR}/include/ DESTINATION include/extlibs/WinDepPack COMPONENT headers)
-        install(DIRECTORY ${SOFA_DEPENDENCY_PACK_DIR}/licenses/ DESTINATION licenses COMPONENT applications)
+        # OR_DEBUG
+        file(GLOB SOFA_DEPENDENCY_PACK_DLLS "${SOFA_DEPENDENCY_PACK_DIR}/bin/*.dll")
+        message(STATUS "SOFA_DEPENDENCY_PACK_DLLS = ${SOFA_DEPENDENCY_PACK_DLLS}")
+        install(FILES ${SOFA_DEPENDENCY_PACK_DLLS} DESTINATION bin COMPONENT applications)
+        #install(DIRECTORY ${SOFA_DEPENDENCY_PACK_DIR}/licenses/ DESTINATION licenses COMPONENT applications)
     endif ()
 endif()
 
