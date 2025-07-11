@@ -847,6 +847,7 @@ function(sofa_install_libraries)
 
         foreach(target ${targets})
             get_target_property(target_location ${target} LOCATION_${BUILD_TYPE_UPPER})
+            message("------------ ${target}:  target_location = ${target_location}")
             get_target_property(is_framework ${target} FRAMEWORK)
             if(APPLE AND is_framework)
                 get_filename_component(target_location ${target_location} DIRECTORY) # parent dir
@@ -874,14 +875,25 @@ function(sofa_install_libraries)
             message(WARNING "sofa_install_libraries: no lib found with ${ARGV}")
         endif()
 
+        message("------------ ${TARGETS}:  lib_paths = ${lib_paths}")
         foreach(lib_path ${lib_paths})
+            message("------------ ${TARGETS}:  lib_path = ${lib_path}")
             if(NOT EXISTS ${lib_path})
+                message("------------ ${TARGETS}:  not exists... skipping")
                 continue()
             endif()
 
             get_filename_component(LIBREAL ${lib_path} REALPATH)
             get_filename_component(LIBREAL_NAME ${LIBREAL} NAME_WE)
             get_filename_component(LIBREAL_PATH ${LIBREAL} PATH)
+
+            if(WIN32)
+                set(SHARED_LIB_PATH "${LIBREAL_PATH}/../bin")
+                set(STATIC_LIB_PATH "${LIBREAL_PATH}/../lib")
+            else()
+                set(SHARED_LIB_PATH ${LIBREAL_PATH})
+                set(STATIC_LIB_PATH ${LIBREAL_PATH})
+            endif()
 
             # In "${LIBREAL_NAME}." the dot is a real dot, not a regex symbol
             # CMAKE_*_LIBRARY_SUFFIX also start with a dot
@@ -890,17 +902,21 @@ function(sofa_install_libraries)
             # or:
             # <lib_path> <slash> <library_name> <dot> <anything> <dot> <dll/so/dylib/...>
             file(GLOB SHARED_LIBS
-                "${LIBREAL_PATH}/${LIBREAL_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}*" # libtiff.dll
-                "${LIBREAL_PATH}/${LIBREAL_NAME}[0-9]${CMAKE_SHARED_LIBRARY_SUFFIX}*"
-                "${LIBREAL_PATH}/${LIBREAL_NAME}[0-9][0-9]${CMAKE_SHARED_LIBRARY_SUFFIX}*" # libpng16.dll
-                "${LIBREAL_PATH}/${LIBREAL_NAME}.*${CMAKE_SHARED_LIBRARY_SUFFIX}*" # libpng.16.dylib
+                "${SHARED_LIB_PATH}/${LIBREAL_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}*" # libtiff.dll
+                "${SHARED_LIB_PATH}/${LIBREAL_NAME}[0-9]${CMAKE_SHARED_LIBRARY_SUFFIX}*"
+                "${SHARED_LIB_PATH}/${LIBREAL_NAME}[0-9][0-9]${CMAKE_SHARED_LIBRARY_SUFFIX}*" # libpng16.dll
+                "${SHARED_LIB_PATH}/${LIBREAL_NAME}.*${CMAKE_SHARED_LIBRARY_SUFFIX}*" # libpng.16.dylib
                 )
             file(GLOB STATIC_LIBS
-                "${LIBREAL_PATH}/${LIBREAL_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}*"
-                "${LIBREAL_PATH}/${LIBREAL_NAME}[0-9]${CMAKE_STATIC_LIBRARY_SUFFIX}*"
-                "${LIBREAL_PATH}/${LIBREAL_NAME}[0-9][0-9]${CMAKE_STATIC_LIBRARY_SUFFIX}*"
-                "${LIBREAL_PATH}/${LIBREAL_NAME}.*${CMAKE_STATIC_LIBRARY_SUFFIX}*"
+                "${STATIC_LIB_PATH}/${LIBREAL_NAME}${CMAKE_STATIC_LIBRARY_SUFFIX}*"
+                "${STATIC_LIB_PATH}/${LIBREAL_NAME}[0-9]${CMAKE_STATIC_LIBRARY_SUFFIX}*"
+                "${STATIC_LIB_PATH}/${LIBREAL_NAME}[0-9][0-9]${CMAKE_STATIC_LIBRARY_SUFFIX}*"
+                "${STATIC_LIB_PATH}/${LIBREAL_NAME}.*${CMAKE_STATIC_LIBRARY_SUFFIX}*"
                 )
+
+            message("------------ ${TARGETS}:  LIBREAL_NAME = ${LIBREAL_NAME}")
+            message("------------ ${TARGETS}:  SHARED_LIBS = ${SHARED_LIBS}")
+            message("------------ ${TARGETS}:  STATIC_LIBS = ${STATIC_LIBS}")
 
             # Install the libs
             if(WIN32)
