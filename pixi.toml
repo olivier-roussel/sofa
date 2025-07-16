@@ -113,8 +113,9 @@ configure = { cmd = [ "cmake",
   "-DSOFA_BUILD_RELEASE_PACKAGE=ON",
   "-DSOFA_DEPENDENCY_PACK_DIR=$CONDA_PREFIX/Library",
   "--preset",
-  "standard-dev",
-  "$SOFA_PLUGIN_PYTHON3_ARGS" ] }
+  "full",
+  "$SOFA_PLUGIN_PYTHON3_ARGS",
+  "$SOFA_PLUGIN_SOFACUDA_ARGS" ] }
 
 package = { cmd = "cmake --build $SOFA_BUILD_DIR --target package", depends-on = ["build"] }
 
@@ -255,7 +256,13 @@ minimal = { features = ["presets-minimal"] }
 minimal-dev = { features = ["presets-minimal-dev"] }
 standard = { features = ["presets-standard", "plugin-sofa-python3", "presets-defaultGUI"] }
 standard-dev = { features = ["presets-standard-dev", "plugin-sofa-python3", "presets-defaultGUI"] }
-release-package = { features = ["build-release-package", "plugin-sofa-python3", "presets-defaultGUI"] }
+release-package = { features = [
+  "build-release-package",
+  "plugin-sofa-python3",
+  "plugin-cgal",
+  "plugin-cuda",
+  "presets-defaultGUI",
+  "qt-gui"] }
 supported-plugins = { features = [
   "presets-supported-plugins",
   "plugin-sofa-python3",
