@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 message("Getting meta-data from Conda external packages: ${SOFA_BUILD_RELEASE_CONDA_PACKAGES}")
 
-find_package(PythonInterp REQUIRED)
-
-execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
+execute_process(COMMAND $ENV{CONDA_PYTHON_EXE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
   "headers"
   "${SOFA_BUILD_RELEASE_CONDA_PACKAGES}"
   OUTPUT_VARIABLE SOFA_CONDA_DEPS_HEADERS
@@ -14,7 +12,7 @@ if(NOT ${SOFA_CONDA_DEPS_SUCCESS} EQUAL 0)
     message(FATAL_ERROR "Failed to get Conda packages headers")
 endif()
 
-execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
+execute_process(COMMAND $ENV{CONDA_PYTHON_EXE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
   "shared-libs"
   "${SOFA_BUILD_RELEASE_CONDA_PACKAGES}"
   OUTPUT_VARIABLE SOFA_CONDA_DEPS_SHARED_LIBS
@@ -24,7 +22,7 @@ if(NOT ${SOFA_CONDA_DEPS_SUCCESS} EQUAL 0)
     message(FATAL_ERROR "Failed to get Conda packages shared libraries")
 endif()
 
-execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
+execute_process(COMMAND $ENV{CONDA_PYTHON_EXE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
   "static-libs"
   "${SOFA_BUILD_RELEASE_CONDA_PACKAGES}"
   OUTPUT_VARIABLE SOFA_CONDA_DEPS_STATIC_LIBS
@@ -34,7 +32,7 @@ if(NOT ${SOFA_CONDA_DEPS_SUCCESS} EQUAL 0)
     message(FATAL_ERROR "Failed to get Conda packages static libraries")
 endif()
 
-execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
+execute_process(COMMAND $ENV{CONDA_PYTHON_EXE} "${CMAKE_CURRENT_SOURCE_DIR}/get-conda-package-files.py"
   "exec"
   "${SOFA_BUILD_RELEASE_CONDA_PACKAGES}"
   OUTPUT_VARIABLE SOFA_CONDA_DEPS_EXEC
@@ -43,6 +41,11 @@ execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/get-co
 if(NOT ${SOFA_CONDA_DEPS_SUCCESS} EQUAL 0)
     message(FATAL_ERROR "Failed to get Conda packages executables")
 endif()
+
+message("-------------------------------")
+message("SOFA_CONDA_DEPS_SHARED_LIBS = ${SOFA_CONDA_DEPS_SHARED_LIBS}")
+message("SOFA_CONDA_DEPS_STATIC_LIBS = ${SOFA_CONDA_DEPS_STATIC_LIBS}")
+message("-------------------------------")
 
 install(FILES ${SOFA_CONDA_DEPS_HEADERS} DESTINATION include/extlibs/WinDepPack COMPONENT headers)
 install(FILES ${SOFA_CONDA_DEPS_SHARED_LIBS} DESTINATION bin COMPONENT applications)
