@@ -61,22 +61,27 @@ for dep_files in deps_files:
     for file in dep_files:
         # filter files according requested file types
         filepath = Path(file)
+        _file_abspath = Path(os.environ["CONDA_PREFIX"]) / filepath
+        # force using Unix-like forward slashes paths even on windows to comply with CMake expected inputs
+        file_abspath = str(_file_abspath).replace("\\", "/")
         if args.filetype == 'all':
-            out_list += file + ";"
+            out_list += file_abspath + ";"
         elif args.filetype == 'headers':
             if contains_sublist(filepath.parts, header_suffix.parts):
-                out_list += file + ";"
+                out_list += file_abspath + ";"
         if args.filetype == 'static-libs':
             if contains_sublist(filepath.parts, static_lib_suffix.parts) and match_any(filepath, static_lib_ext):
-                out_list += file + ";"
+                out_list += file_abspath + ";"
         if args.filetype == 'shared-libs':
             if contains_sublist(filepath.parts, shared_lib_suffix.parts) and match_any(filepath, shared_lib_ext):
-                out_list += file + ";"
+                out_list += file_abspath + ";"
         if args.filetype == 'exec':
             if contains_sublist(filepath.parts, exec_suffix.parts) and match_any(filepath, exec_ext):
-                out_list += file + ";"
+                out_list += file_abspath + ";"
 
+if out_list!= "" and out_list.rfind(";") == len(out_list) - 1:
+    out_list = out_list[:-1]
 # output result to stdout
-print(out_list)
+print(out_list, end='', file=sys.stdout, flush=True)
 
 sys.exit(0)
