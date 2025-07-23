@@ -143,10 +143,10 @@ if(MSVC)
         endif()
         install(DIRECTORY ${SOFA_DEPENDENCY_PACK_DIR}/include/ DESTINATION include/extlibs/WinDepPack COMPONENT headers)
         install(DIRECTORY ${SOFA_DEPENDENCY_PACK_DIR}/licenses/ DESTINATION licenses COMPONENT applications)
-    elseif(DEFINED ENV{CONDA_PREFIX} AND SOFA_BUILD_RELEASE_PACKAGE)
-        # If building windows binary package within a Conda environment, then we will
-        # pack Conda dependencies instead
-        add_subdirectory(windeppack_tmp)
+    # elseif(DEFINED ENV{CONDA_PREFIX} AND SOFA_BUILD_RELEASE_PACKAGE)
+    #     # If building windows binary package within a Conda environment, then we will
+    #     # pack Conda dependencies instead
+    #     add_subdirectory(windeppack_tmp)
     endif()
 endif()
 

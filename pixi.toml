@@ -117,7 +117,6 @@ configure = { cmd = [ "cmake",
   "-DSOFA_USE_DEPENDENCY_PACK=OFF",
   "--preset",
   "full",
-  "-DSOFA_BUILD_RELEASE_CONDA_PACKAGES='libzlib;zlib;tinyxml2;qt-main;pcre2;libqglviewer;cgal-cpp;gmp;zstd;libtiff;libjpeg-turbo;libpng;glew;glfw;nativefiledialog-extended'",
   "$SOFA_PLUGIN_PYTHON3_ARGS",
   "$SOFA_PLUGIN_SOFACUDA_ARGS" ] }
 
