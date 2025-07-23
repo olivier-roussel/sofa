@@ -114,10 +114,10 @@ configure = { cmd = [ "cmake",
   "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15",
   "-DCPACK_GENERATOR=ZIP",
   "-DSOFA_BUILD_RELEASE_PACKAGE=ON",
-  "-DSOFA_DEPENDENCY_PACK_DIR=$CONDA_PREFIX/Library", # REMOVEME
+  "-DSOFA_USE_DEPENDENCY_PACK=OFF",
   "--preset",
   "full",
-  "-DSOFA_BUILD_RELEASE_CONDA_PACKAGES='zlib;tinyxml2;qt-main;libqglviewer;cgal-cpp;gmp;zstd;libtiff;libjpeg-turbo;libpng;glew;glfw;nativefiledialog-extended'",
+  "-DSOFA_BUILD_RELEASE_CONDA_PACKAGES='libzlib;zlib;tinyxml2;qt-main;pcre2;libqglviewer;cgal-cpp;gmp;zstd;libtiff;libjpeg-turbo;libpng;glew;glfw;nativefiledialog-extended'",
   "$SOFA_PLUGIN_PYTHON3_ARGS",
   "$SOFA_PLUGIN_SOFACUDA_ARGS" ] }
 
