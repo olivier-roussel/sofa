@@ -67,4 +67,4 @@ SOFA, Simulation Open-Framework Architecture
 (c) 2006 INRIA, USTL, UJF, CNRS, MGH
 
 --
-dummy commit for triggering
+dummy commit for triggering 1
